@@ -1,0 +1,59 @@
+﻿@model  List<API.Models.Class1>
+
+@{
+    ViewData["Title"] = "Countries Details";
+}
+<table class="table">
+    <thead>
+        <tr>
+            <td>S.N</td>
+            <th>Commom</th>
+            <th>Official</th>
+            <th>flag</th>
+            <th>region</th>
+            <th>continents</th>
+            <th>capital</th>
+            <th>landlocked</th>
+            <th>UN Member</th>
+            <th>Capital Info</th>
+        </tr>
+    </thead>
+    <tbody>
+@*        @foreach (var class1 in Model)
+*@       @foreach (var (index, class1) in Model.Select((value, i) => (i, value)))
+        {
+          
+           <tr>
+                <td>@(index + 1)</td>
+                <td>@class1.name.common</td>
+                <td>@class1.name.official</td>
+                <td><img src="@class1.flags.svg" alt="Flag" class="flag-image" width="100" height="100"></td>
+                <td>@class1.region</td>
+                <td>@string.Join(", ", class1.continents)</td>
+                @*<td>@string.Join(", ", class1.capital)</td>*@ <!-- Render all capitals using Join -->
+                @if (class1.capital != null && class1.capital.Length > 0)
+                {
+                    <td>@string.Join(", ", class1.capital.Where(c => !string.IsNullOrWhiteSpace(c)))</td>
+                }
+                else
+                {
+                    <td>N/A</td>
+                }
+                <td>@class1.landlocked</td>
+                <td>@class1.unMember</td>
+                @if (class1.capitalInfo.latlng != null && class1.capitalInfo.latlng.Length > 0)
+                {
+                    <td>@string.Join(", ", class1.capitalInfo.latlng.Select(x => x.ToString()))</td>
+
+
+
+                }
+                else
+                {
+                    <td>N/A</td>
+                }
+            </tr>
+            
+        }
+    </tbody>
+</table>
